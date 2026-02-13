@@ -1,6 +1,7 @@
 -- =========================
 -- NEOVIM GO IDE CONFIG
 -- =========================
+require("init.bootstrap")
 
 -- Leader key
 vim.g.mapleader = " "
@@ -25,39 +26,44 @@ local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
-  { "nvim-lua/plenary.nvim" },
-  { 
-	  "neovim/nvim-lspconfig",
-	  config = function()
-		  local lspconfig = require("init/lua-lsp.lua")
-		  lspconfig.gopls.setup(),
-	  end,
+  {
+    "nvim-lua/plenary.nvim"
+  },
+  {
+    "neovim/nvim-lspconfig",
+    config = function()
+      local lspconfig = require("init/lua-lsp.lua")
+      lspconfig.gopls.setup()
+    end,
+  },
   {
     'nvim-treesitter/nvim-treesitter',
     lazy = false,
     build = ':TSUpdate',
-    # config = function()
-    #  require("nvim-treesitter.config").setup({        
-    #    ensure_installed = { "go", "lua", "javascript" },                                               highlight = { enable = true },
-    #  }) 
-    end,
+    -- config = function()
+    --  require("nvim-treesitter.config").setup({
+    --    ensure_installed = { "go", "lua", "javascript" },                                               highlight = { enable = true },
+    --  })
+    -- end,
   },
   {
-	  "mason-org/mason.nvim"
+    "mason-org/mason.nvim",
+    build = ":MasonUpdate",
+    config = function()
+      require("mason").setup()
+    end,
   },
 
-  { 
+  {
     "nvim-tree/nvim-tree.lua",
     build = ":TSUpdate",
     config = function()
       require("nvim-tree").setup()
-      vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", { 
-	noremap = true, 
-	silent = true 
-    })
+      vim.api.nvim_set_keymap("n", "<leader>e", ":NvimTreeToggle<CR>", {
+        noremap = true,
+        silent = true
+      })
     end,
   },
 
 })
-
-
