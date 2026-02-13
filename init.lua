@@ -29,6 +29,7 @@ require("lazy").setup({
   {
     "nvim-lua/plenary.nvim"
   },
+  -- LUA LANGUAGE SERVER
   {
     "neovim/nvim-lspconfig",
     config = function()
@@ -51,6 +52,9 @@ require("lazy").setup({
     build = ":MasonUpdate",
     config = function()
       require("mason").setup()
+      require("mason-lspconfig").setup({
+        ensure_installed = { "lua_ls" }
+      })
     end,
   },
 
